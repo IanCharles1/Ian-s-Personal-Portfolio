@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ian Mugo — IT & Digital Operations Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #3a3a3a;
+    --ink-muted: #7a7a7a;
+    --parchment: #faf8f4;
+    --surface: #f3f0ea;
+    --surface-dark: #1a1814;
+    --accent: #c8822a;
+    --accent-light: #e8a84a;
+    --accent-muted: #f5e8d4;
+    --white: #ffffff;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --radius: 4px;
+    --radius-lg: 12px;
+    --transition: 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--parchment);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.25rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(250, 248, 244, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition), background var(--transition);
+  }
+  nav.scrolled { border-bottom-color: rgba(0,0,0,0.1); }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--ink-soft);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    position: relative;
+    transition: color var(--transition);
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -3px; left: 0; right: 100%;
+    height: 1px; background: var(--accent);
+    transition: right var(--transition);
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { right: 0; }
+
+  .nav-cta {
+    padding: 0.55rem 1.4rem;
+    background: var(--ink);
+    color: var(--parchment) !important;
+    border-radius: 2px;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    transition: background var(--transition), transform var(--transition) !important;
+  }
+  .nav-cta:hover { background: var(--accent) !important; transform: translateY(-1px); }
+  .nav-cta::after { display: none !important; }
+
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px; cursor: pointer;
+    background: none; border: none; padding: 4px;
+  }
+  .hamburger span {
+    width: 24px; height: 1.5px; background: var(--ink);
+    transition: var(--transition); display: block;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .hero-bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200, 130, 42, 0.08) 0%, transparent 70%);
+  }
+  .hero-bg-circle.c1 { width: 700px; height: 700px; top: -200px; right: -200px; }
+  .hero-bg-circle.c2 { width: 400px; height: 400px; bottom: 0; left: -100px; }
+
+  .hero-grid-line {
+    position: absolute; background: rgba(0,0,0,0.04);
+  }
+  .hero-grid-line.v { width: 1px; top: 0; bottom: 0; }
+  .hero-grid-line.h { height: 1px; left: 0; right: 0; }
+  .hero-grid-line.v1 { left: 33%; }
+  .hero-grid-line.v2 { left: 66%; }
+  .hero-grid-line.h1 { top: 40%; }
+
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 380px; gap: 4rem; align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 0.4rem 1rem;
+    background: var(--accent-muted);
+    border: 1px solid rgba(200, 130, 42, 0.25);
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.75rem;
+    opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+  }
+  .hero-badge-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 5vw, 4.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    max-width: 540px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+  }
+
+  .hero-pills {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    margin-bottom: 2.5rem;
+    opacity: 0; animation: fadeUp 0.7s 0.45s forwards;
+  }
+  .hero-pill {
+    padding: 0.35rem 0.9rem;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 2px;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+
+  .hero-actions {
+    display: flex; align-items: center; gap: 1.5rem;
+    opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+  }
+
+  .btn-primary {
+    padding: 0.85rem 2rem;
+    background: var(--ink);
+    color: var(--parchment);
+    border: none; border-radius: 2px; cursor: pointer;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200, 130, 42, 0.25); }
+  .btn-primary svg { transition: transform var(--transition); }
+  .btn-primary:hover svg { transform: translateX(4px); }
+
+  .btn-ghost {
+    font-size: 0.85rem; color: var(--ink-soft); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    border-bottom: 1px solid transparent;
+    transition: color var(--transition), border-color var(--transition);
+    padding-bottom: 2px;
+  }
+  .btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+
+  .hero-card-wrap {
+    opacity: 0; animation: fadeIn 0.8s 0.5s forwards;
+  }
+
+  .hero-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  }
+
+  .hero-stat-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;
+  }
+  .hero-stat {
+    background: var(--parchment);
+    border-radius: var(--radius);
+    padding: 1rem;
+    text-align: center;
+  }
+  .hero-stat-num {
+    font-family: var(--serif);
+    font-size: 1.9rem;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .hero-stat-num span { color: var(--accent); }
+  .hero-stat-label {
+    font-size: 0.72rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hero-card-divider {
+    height: 1px; background: rgba(0,0,0,0.08); margin: 1.25rem 0;
+  }
+
+  .hero-card-label {
+    font-size: 0.72rem; color: var(--ink-muted);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+
+  .hero-tags {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .hero-tag {
+    padding: 0.3rem 0.75rem;
+    background: var(--accent-muted);
+    color: var(--accent);
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 2rem; }
+
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 0.72rem; font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-label::before {
+    content: ''; width: 24px; height: 1px; background: var(--accent);
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 2.9rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  .section-sub {
+    font-size: 1rem; color: var(--ink-soft);
+    font-weight: 300; line-height: 1.8;
+    max-width: 560px;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--surface); }
+
+  .services-header {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: end;
+    margin-bottom: 3.5rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .service-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  }
+  .service-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(200, 130, 42, 0.04) 0%, transparent 60%);
+    opacity: 0; transition: opacity var(--transition);
+  }
+  .service-card:hover { transform: translateY(-4px); border-color: rgba(200, 130, 42, 0.3); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+  .service-card:hover::after { opacity: 1; }
+  .service-card:hover .service-icon { background: var(--ink); color: var(--accent-light); }
+
+  .service-icon {
+    width: 48px; height: 48px;
+    background: var(--parchment);
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    color: var(--accent);
+    transition: background var(--transition), color var(--transition);
+  }
+  .service-icon svg { width: 22px; height: 22px; }
+
+  .service-card h3 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+  .service-card p {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .service-card-num {
+    position: absolute; top: 1.5rem; right: 1.75rem;
+    font-family: var(--serif);
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: rgba(0,0,0,0.04);
+    line-height: 1;
+    pointer-events: none;
+    transition: color var(--transition);
+  }
+  .service-card:hover .service-card-num { color: rgba(200, 130, 42, 0.07); }
+
+  /* ── HOW I HELP ── */
+  .help-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    margin-top: 3rem;
+  }
+
+  .help-outcomes {
+    display: flex; flex-direction: column; gap: 1.25rem;
+  }
+
+  .outcome-item {
+    display: flex; gap: 1.25rem; align-items: flex-start;
+    padding: 1.25rem 1.5rem;
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    transition: transform var(--transition), box-shadow var(--transition);
+    cursor: default;
+  }
+  .outcome-item:hover { transform: translateX(6px); box-shadow: 4px 8px 24px rgba(0,0,0,0.06); }
+
+  .outcome-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: var(--accent-muted);
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+  }
+  .outcome-icon svg { width: 18px; height: 18px; }
+
+  .outcome-item h4 {
+    font-size: 0.92rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem;
+  }
+  .outcome-item p { font-size: 0.83rem; color: var(--ink-soft); line-height: 1.6; font-weight: 300; }
+
+  .help-visual {
+    position: relative; padding: 2rem 0;
+  }
+
+  .help-quote-card {
+    background: var(--ink);
+    color: var(--parchment);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .help-quote-card::before {
+    content: '"';
+    font-family: var(--serif);
+    font-size: 8rem;
+    color: rgba(255,255,255,0.06);
+    position: absolute; top: -1rem; left: 1rem;
+    line-height: 1;
+  }
+  .help-quote-card p {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    line-height: 1.6;
+    font-style: italic;
+    position: relative; z-index: 1;
+    margin-bottom: 1.5rem;
+  }
+  .help-quote-card .quote-attr {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  .help-mini-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.25rem;
+  }
+  .help-mini-stat {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .help-mini-stat-num {
+    font-family: var(--serif);
+    font-size: 2rem;
+    color: var(--ink);
+  }
+  .help-mini-stat-num em { color: var(--accent); font-style: normal; }
+  .help-mini-stat-label {
+    font-size: 0.75rem; color: var(--ink-muted); letter-spacing: 0.05em;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--surface); }
+
+  .timeline { position: relative; margin-top: 3rem; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: rgba(0,0,0,0.12);
+  }
+
+  .timeline-item {
+    position: relative; padding-left: 2.5rem; padding-bottom: 2.5rem;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+
+  .timeline-dot {
+    position: absolute; left: -6px; top: 0.3rem;
+    width: 13px; height: 13px; border-radius: 50%;
+    background: var(--white);
+    border: 2px solid var(--accent);
+  }
+  .timeline-dot.active {
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(200, 130, 42, 0.15);
+  }
+
+  .timeline-date {
+    font-size: 0.75rem; color: var(--accent);
+    font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+
+  .timeline-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 2rem;
+    transition: box-shadow var(--transition), transform var(--transition);
+  }
+  .timeline-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateX(4px); }
+
+  .timeline-card h3 { font-size: 1.05rem; font-weight: 500; color: var(--ink); margin-bottom: 0.25rem; }
+  .timeline-card .timeline-org {
+    font-size: 0.82rem; color: var(--accent); font-weight: 500; margin-bottom: 0.75rem;
+  }
+  .timeline-card p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.7; font-weight: 300; }
+
+  .timeline-tags {
+    display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem;
+  }
+  .timeline-tag {
+    padding: 0.25rem 0.65rem;
+    font-size: 0.72rem;
+    background: var(--parchment);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 2px;
+    color: var(--ink-soft);
+  }
+
+  /* ── TOOLS ── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.875rem;
+    margin-top: 3rem;
+  }
+
+  .tool-pill {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px;
+    padding: 0.8rem 1rem;
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: var(--radius-lg);
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    font-weight: 400;
+    cursor: default;
+    transition: border-color var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+    text-align: center;
+  }
+  .tool-pill:hover {
+    border-color: var(--accent);
+    color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+  .tool-pill svg { width: 16px; height: 16px; color: var(--accent); flex-shrink: 0; }
+
+  .tools-categories { margin-top: 3rem; }
+  .tools-cat { margin-bottom: 2.5rem; }
+  .tools-cat-label {
+    font-size: 0.72rem; color: var(--ink-muted); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.75rem; font-weight: 500;
+  }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background: var(--surface); }
+
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem; margin-top: 3rem;
+  }
+
+  .testimonial-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    position: relative;
+    transition: transform var(--transition), box-shadow var(--transition);
+    cursor: default;
+  }
+  .testimonial-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+
+  .testimonial-stars {
+    display: flex; gap: 4px; margin-bottom: 1.25rem;
+    color: var(--accent);
+  }
+  .testimonial-stars svg { width: 14px; height: 14px; }
+
+  .testimonial-text {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--ink);
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  .testimonial-author {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .testimonial-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--accent-muted);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 1rem;
+    color: var(--accent); font-weight: 600; flex-shrink: 0;
+  }
+  .testimonial-name { font-size: 0.88rem; font-weight: 500; color: var(--ink); }
+  .testimonial-role { font-size: 0.78rem; color: var(--ink-muted); }
+
+  .testimonials-cta {
+    text-align: center; margin-top: 2rem;
+    padding: 1.5rem;
+    border: 1px dashed rgba(0,0,0,0.15);
+    border-radius: var(--radius-lg);
+    background: var(--parchment);
+  }
+  .testimonials-cta p { font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 0.75rem; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--ink); }
+  #contact .section-label { color: var(--accent-light); }
+  #contact .section-label::before { background: var(--accent-light); }
+  #contact .section-title { color: var(--parchment); }
+  #contact .section-title em { color: var(--accent-light); }
+
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3.5rem;
+  }
+
+  .contact-channels {
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+
+  .contact-channel {
+    display: flex; align-items: center; gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: background var(--transition), border-color var(--transition), transform var(--transition);
+    cursor: pointer;
+  }
+  .contact-channel:hover { background: rgba(255,255,255,0.09); border-color: rgba(200, 130, 42, 0.4); transform: translateX(4px); }
+
+  .contact-channel-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: rgba(200, 130, 42, 0.15);
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-light);
+  }
+  .contact-channel-icon svg { width: 20px; height: 20px; }
+
+  .contact-channel-label { font-size: 0.72rem; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.25rem; }
+  .contact-channel-value { font-size: 0.92rem; color: rgba(255,255,255,0.9); font-weight: 400; }
+
+  .contact-form-side h3 {
+    font-family: var(--serif);
+    font-size: 1.5rem; color: var(--parchment);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+    color: var(--parchment);
+    font-family: var(--sans); font-size: 0.9rem;
+    transition: border-color var(--transition), background var(--transition);
+    outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: rgba(200, 130, 42, 0.5);
+    background: rgba(255,255,255,0.08);
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+  .form-group textarea { min-height: 120px; resize: vertical; }
+  .form-group select { appearance: none; cursor: pointer; }
+  .form-group select option { background: var(--surface-dark); color: var(--parchment); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .btn-send {
+    width: 100%; padding: 1rem;
+    background: var(--accent);
+    color: var(--white);
+    border: none; border-radius: var(--radius); cursor: pointer;
+    font-family: var(--sans); font-size: 0.88rem;
+    font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    margin-top: 1.25rem;
+  }
+  .btn-send:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200, 130, 42, 0.35); }
+  .btn-send svg { width: 18px; height: 18px; transition: transform var(--transition); }
+  .btn-send:hover svg { transform: translateX(4px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080807;
+    padding: 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo { font-family: var(--serif); font-size: 1rem; color: rgba(255,255,255,0.4); text-decoration: none; }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.25); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.78rem; color: rgba(255,255,255,0.3); text-decoration: none; transition: color var(--transition); }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── MOBILE NAV ── */
+  .mobile-nav {
+    display: none; position: fixed; inset: 0; z-index: 99;
+    background: var(--parchment);
+    flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { font-family: var(--serif); font-size: 2rem; color: var(--ink); text-decoration: none; }
+  .mobile-nav a:hover { color: var(--accent); }
+  .mobile-nav-close { position: absolute; top: 1.5rem; right: 2rem; background: none; border: none; cursor: pointer; font-size: 2rem; color: var(--ink); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-card-wrap { display: none; }
+    .services-header { grid-template-columns: 1fr; }
+    .help-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 4rem 1.25rem; }
+    nav { padding: 1rem 1.25rem; }
+    .hero { padding: 6rem 1.25rem 3rem; }
+    .tools-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Ian<span>.</span>Mugo</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how-i-help">Approach</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">×</button>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#how-i-help" onclick="closeMobile()">Approach</a>
+  <a href="#experience" onclick="closeMobile()">Experience</a>
+  <a href="#tools" onclick="closeMobile()">Tools</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="hero-bg-circle c1"></div>
+    <div class="hero-bg-circle c2"></div>
+    <div class="hero-grid-line v v1"></div>
+    <div class="hero-grid-line v v2"></div>
+    <div class="hero-grid-line h h1"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        Available for remote work
+      </div>
+      <h1>I Help Businesses<br><em>Run Smoothly</em></h1>
+      <p class="hero-sub">
+        IT support, digital operations, and virtual assistance — seamlessly combined so you can focus on growing your business while I handle the technical and operational heavy lifting.
+      </p>
+      <div class="hero-pills">
+        <span class="hero-pill">IT Support</span>
+        <span class="hero-pill">Digital Operations</span>
+        <span class="hero-pill">Virtual Assistance</span>
+        <span class="hero-pill">System Administration</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">
+          Work With Me
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M10 4l6 6-6 6"/></svg>
+        </a>
+        <a href="#services" class="btn-ghost">
+          See Services
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M8 3v10M3 8l5 5 5-5"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-card-wrap">
+      <div class="hero-card">
+        <div class="hero-stat-grid">
+          <div class="hero-stat">
+            <div class="hero-stat-num">3<span>+</span></div>
+            <div class="hero-stat-label">Years Experience</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">5<span>+</span></div>
+            <div class="hero-stat-label">Service Areas</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">24<span>/7</span></div>
+            <div class="hero-stat-label">Availability</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">100<span>%</span></div>
+            <div class="hero-stat-label">Remote Ready</div>
+          </div>
+        </div>
+        <div class="hero-card-divider"></div>
+        <div class="hero-card-label">Core expertise</div>
+        <div class="hero-tags">
+          <span class="hero-tag">Healthcare IT</span>
+          <span class="hero-tag">Microsoft 365</span>
+          <span class="hero-tag">Azure</span>
+          <span class="hero-tag">Active Directory</span>
+          <span class="hero-tag">HMIS / ERP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="services-header">
+      <div>
+        <div class="section-label reveal">What I Offer</div>
+        <h2 class="section-title reveal reveal-delay-1">Services that <em>power</em><br>your operations</h2>
+      </div>
+      <p class="section-sub reveal reveal-delay-2">From technical infrastructure to day-to-day digital operations, I provide the expertise your business needs without the overhead of a full-time hire.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-card-num">01</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 8h.01M10 8h4"/></svg>
+        </div>
+        <h3>IT Support & System Administration</h3>
+        <p>Network setup, server management, Active Directory, remote troubleshooting, hardware/software support, and proactive system monitoring to keep your infrastructure running 24/7.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-card-num">02</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Virtual Assistance & Operations</h3>
+        <p>Calendar management, email handling, process documentation, task coordination, research, data entry, and workflow optimization — your dedicated remote operations partner.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-card-num">03</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h3>Digital & Social Media Management</h3>
+        <p>Content planning, post scheduling, community engagement, brand consistency, analytics tracking, and clear communication strategies that build trust and grow your audience.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-card-num">04</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3>Website & Tech Support</h3>
+        <p>Website maintenance, CMS management, plugin updates, performance monitoring, domain and hosting management, and first-line technical support for web-based platforms.</p>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-card-num">05</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <h3>Writing & Research</h3>
+        <p>Technical documentation, SOP writing, business reports, IT policies, content research, and professional correspondence — clear written deliverables your business can rely on.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW I HELP -->
+<section id="how-i-help">
+  <div class="section-inner">
+    <div class="section-label reveal">My Approach</div>
+    <h2 class="section-title reveal reveal-delay-1">Built around <em>outcomes,</em><br>not just tasks</h2>
+    <div class="help-grid">
+      <div class="help-outcomes">
+
+        <div class="outcome-item reveal">
+          <div class="outcome-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div>
+            <h4>Faster, More Reliable Systems</h4>
+            <p>Proactive monitoring and swift incident response mean less downtime, fewer disruptions, and IT that just works — quietly and consistently.</p>
+          </div>
+        </div>
+
+        <div class="outcome-item reveal reveal-delay-1">
+          <div class="outcome-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <h4>Time Freed for What Matters</h4>
+            <p>Operational tasks, inbox management, and technical busywork off your plate — so you and your team focus entirely on strategic growth.</p>
+          </div>
+        </div>
+
+        <div class="outcome-item reveal reveal-delay-2">
+          <div class="outcome-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h4>Security & Compliance You Can Trust</h4>
+            <p>Access controls, data protection practices, and IT governance aligned to real-world healthcare and business standards.</p>
+          </div>
+        </div>
+
+        <div class="outcome-item reveal reveal-delay-3">
+          <div class="outcome-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <h4>A Partner, Not Just a Vendor</h4>
+            <p>I work inside your workflows, learn your business, and provide continuity — available when you need expertise without the full-time salary.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="help-visual reveal reveal-delay-2">
+        <div class="help-quote-card">
+          <p>"The best IT support is the kind you never notice — because nothing ever breaks."</p>
+          <div class="quote-attr">Ian Mugo — Service Philosophy</div>
+        </div>
+        <div class="help-mini-stats">
+          <div class="help-mini-stat reveal reveal-delay-1">
+            <div class="help-mini-stat-num">3<em>+</em></div>
+            <div class="help-mini-stat-label">Years in Healthcare IT</div>
+          </div>
+          <div class="help-mini-stat reveal reveal-delay-2">
+            <div class="help-mini-stat-num">5<em>+</em></div>
+            <div class="help-mini-stat-label">System Domains</div>
+          </div>
+          <div class="help-mini-stat reveal reveal-delay-3">
+            <div class="help-mini-stat-num">10<em>+</em></div>
+            <div class="help-mini-stat-label">Tools Mastered</div>
+          </div>
+          <div class="help-mini-stat reveal reveal-delay-4">
+            <div class="help-mini-stat-num">0</div>
+            <div class="help-mini-stat-label">Missed Deadlines</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label reveal">Background</div>
+    <h2 class="section-title reveal reveal-delay-1">Experience that<br><em>earns trust</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Built across demanding environments — healthcare infrastructure, multi-entity group operations, and digital systems management.</p>
+
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot active"></div>
+        <div class="timeline-date">August 2025 — Present</div>
+        <div class="timeline-card">
+          <h3>Group ICT & Systems Officer</h3>
+          <div class="timeline-org">HAKID&amp;A Holdings</div>
+          <p>Providing strategic and operational ICT leadership across multiple subsidiary entities. Responsible for infrastructure governance, systems integration, vendor management, ICT asset control, disaster recovery planning, and BSC reporting for the group.</p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">Group IT Leadership</span>
+            <span class="timeline-tag">Strategic Planning</span>
+            <span class="timeline-tag">Multi-entity Management</span>
+            <span class="timeline-tag">Governance</span>
+            <span class="timeline-tag">ERP Systems</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2022 — 2025 · ~3 Years</div>
+        <div class="timeline-card">
+          <h3>ICT Support Officer</h3>
+          <div class="timeline-org">Radiant Group of Hospitals</div>
+          <p>End-to-end IT support across a multi-facility healthcare environment. Managed Active Directory, LAN/WAN infrastructure, HMIS and ERP platforms, IP telephony, CCTV systems, Microsoft 365, and a high-volume service desk — ensuring clinical and administrative systems stayed up and compliant.</p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">Healthcare IT</span>
+            <span class="timeline-tag">Active Directory</span>
+            <span class="timeline-tag">HMIS</span>
+            <span class="timeline-tag">Microsoft 365</span>
+            <span class="timeline-tag">Service Desk</span>
+            <span class="timeline-tag">LAN/WAN</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Education · 2022</div>
+        <div class="timeline-card">
+          <h3>BSc Information Technology</h3>
+          <div class="timeline-org">Murang'a University of Technology</div>
+          <p>Second Class Honours, Upper Division. Core grounding in systems, networks, software development, database management, and IT governance — providing the theoretical depth behind practical expertise.</p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">Second Class Honours — Upper Division</span>
+            <span class="timeline-tag">Networks & Systems</span>
+            <span class="timeline-tag">IT Governance</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Ongoing</div>
+        <div class="timeline-card">
+          <h3>Digital Operations & Virtual Services</h3>
+          <div class="timeline-org">The Portable Paradise — Freelance & Consulting</div>
+          <p>Social media strategy, content planning, and digital operations support for small businesses and entrepreneurs. Focused on clear communication, audience trust-building, and measurable outcomes over vanity metrics.</p>
+          <div class="timeline-tags">
+            <span class="timeline-tag">Digital Strategy</span>
+            <span class="timeline-tag">Content Operations</span>
+            <span class="timeline-tag">Virtual Assistance</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-inner">
+    <div class="section-label reveal">Stack</div>
+    <h2 class="section-title reveal reveal-delay-1">Tools &amp; <em>Platforms</em></h2>
+    <p class="section-sub reveal reveal-delay-2">A versatile toolkit spanning infrastructure, cloud, collaboration, and digital operations.</p>
+
+    <div class="tools-categories">
+
+      <div class="tools-cat reveal">
+        <div class="tools-cat-label">Microsoft & Cloud</div>
+        <div class="tools-grid">
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Microsoft 365</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Azure</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>Active Directory</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>SharePoint</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Exchange</div>
+        </div>
+      </div>
+
+      <div class="tools-cat reveal reveal-delay-1">
+        <div class="tools-cat-label">Infrastructure & Security</div>
+        <div class="tools-grid">
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>Servers</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6l11 6 11-6M1 18l11-6 11 6"/></svg>LAN/WAN</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Cybersecurity</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>CCTV</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 10.9 19.79 19.79 0 0 1 1.61 2.26 2 2 0 0 1 3.6.08h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 7.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>VoIP</div>
+        </div>
+      </div>
+
+      <div class="tools-cat reveal reveal-delay-2">
+        <div class="tools-cat-label">Business & Healthcare Systems</div>
+        <div class="tools-grid">
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>HMIS</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>ERP Systems</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Google Workspace</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Service Desk</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>WordPress</div>
+        </div>
+      </div>
+
+      <div class="tools-cat reveal reveal-delay-3">
+        <div class="tools-cat-label">Productivity & Collaboration</div>
+        <div class="tools-grid">
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Slack</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l-4 4l6 6l4-16l-18 7l4 2l2 6l3-4"/></svg>Trello</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Notion</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Zoho Mail</div>
+          <div class="tool-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.83 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>WhatsApp Business</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="section-label reveal">Social Proof</div>
+    <h2 class="section-title reveal reveal-delay-1">What clients <em>say</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Building a track record of trust — one seamless system and smooth operation at a time.</p>
+
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonial-text">"Reliable, responsive, and genuinely understands what a healthcare environment needs from IT. Systems ran smoother from day one."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JN</div>
+          <div>
+            <div class="testimonial-name">Joseph Ndede</div>
+            <div class="testimonial-role">HAKID&amp;A Holdings</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="testimonial-stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonial-text">"Managed our hospital's full IT stack with professionalism and calm under pressure. The kind of ICT support that makes everything else possible."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">HN</div>
+          <div>
+            <div class="testimonial-name">Humphrey Nguya</div>
+            <div class="testimonial-role">Former ICT Manager, Radiant Group of Hospitals</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="testimonial-stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonial-text">"Ian brings a rare mix of technical depth and operational clarity. Our digital presence and workflows are better for having worked with him."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">IG</div>
+          <div>
+            <div class="testimonial-name">Isaac Gichere</div>
+            <div class="testimonial-role">Director, The Portable Paradise</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="testimonials-cta reveal reveal-delay-2">
+      <p>Working with Ian? Your testimonial could be featured here.</p>
+      <a href="#contact" class="btn-ghost">
+        Get in touch
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M4 8h8M8 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label reveal">Let's Talk</div>
+    <h2 class="section-title reveal reveal-delay-1">Ready to make your<br>business <em>run better?</em></h2>
+
+    <div class="contact-grid">
+      <div>
+        <p style="color: rgba(255,255,255,0.55); font-size: 0.95rem; line-height: 1.8; margin-bottom: 2.5rem; font-weight: 300;">Whether you need ongoing IT support, a virtual operations partner, or help with a specific project — I'd love to hear about it. Let's find out how I can help.</p>
+
+        <div class="contact-channels">
+          <a href="mailto:ndirangumugo6@gmail.com" class="contact-channel reveal">
+            <div class="contact-channel-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-channel-label">Email</div>
+              <div class="contact-channel-value">ndirangumugo6@gmail.com</div>
+            </div>
+          </a>
+
+          <a href="tel:+254728427203" class="contact-channel reveal reveal-delay-1">
+            <div class="contact-channel-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 10.9 19.79 19.79 0 0 1 1.61 2.26 2 2 0 0 1 3.6.08h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 7.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>
+            </div>
+            <div>
+              <div class="contact-channel-label">Phone</div>
+              <div class="contact-channel-value">+254 728 427 203</div>
+            </div>
+          </a>
+
+          <a href="https://wa.me/254728427203?text=Hi%20Ian%2C%20I%27d%20like%20to%20discuss%20working%20together." target="_blank" class="contact-channel reveal reveal-delay-2">
+            <div class="contact-channel-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <div>
+              <div class="contact-channel-label">WhatsApp</div>
+              <div class="contact-channel-value">Message me on WhatsApp →</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form-side reveal reveal-delay-2">
+        <h3>Send a quick message</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your name</label>
+            <input type="text" placeholder="Jane Smith">
+          </div>
+          <div class="form-group">
+            <label>Email address</label>
+            <input type="email" placeholder="jane@company.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>I need help with</label>
+          <select>
+            <option value="" disabled selected>Select a service area…</option>
+            <option>IT Support & System Administration</option>
+            <option>Virtual Assistance & Operations</option>
+            <option>Digital & Social Media Management</option>
+            <option>Website & Tech Support</option>
+            <option>Writing & Research</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell me about your project</label>
+          <textarea placeholder="Brief description of what you need, your timeline, and any specific requirements…"></textarea>
+        </div>
+        <button class="btn-send" onclick="handleSend(this)">
+          <span>Send Message</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#home" class="footer-logo">Ian<span>.</span>Mugo</a>
+  <div class="footer-copy">© 2025 Ian Mugo · Nairobi, Kenya · Available globally (remote)</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#experience">Experience</a>
+    <a href="mailto:ndirangumugo6@gmail.com">Email</a>
+    <a href="https://wa.me/254728427203" target="_blank">WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  const mobileNavClose = document.getElementById('mobileNavClose');
+  hamburger.addEventListener('click', () => mobileNav.classList.add('open'));
+  mobileNavClose.addEventListener('click', () => mobileNav.classList.remove('open'));
+  function closeMobile() { mobileNav.classList.remove('open'); }
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  function handleSend(btn) {
+    const original = btn.innerHTML;
+    btn.innerHTML = '<span>Sent! I\'ll be in touch soon.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><polyline points="20 6 9 17 4 12"/></svg>';
+    btn.style.background = '#2a7a4a';
+    btn.style.pointerEvents = 'none';
+    setTimeout(() => { btn.innerHTML = original; btn.style.background = ''; btn.style.pointerEvents = ''; }, 3500);
+  }
+</script>
+</body>
+</html>
